@@ -1,9 +1,13 @@
 import os
 
-from flask import Flask, render_template, request, session
+from libs.db.dbAPI import Conexao
+
+from flask import Flask, render_template, request, session, redirect
 from flask_session import Session
 
 app = Flask(__name__, template_folder="../frontend/templates")
+
+conn = Conexao()
 
 app.static_folder = '../frontend/src'
 app.static_url_path = '/static'
@@ -23,12 +27,60 @@ def index():
 
 @app.route('/saber_mais')
 def saber_mais():
-    pass
+    return render_template('sobre.html')
 
 @app.route('/entrar')
 def entrar():
-    pass
+    return render_template('entrar.html')
+
+@app.route('/dashboard')
+def dashboard():
+    matricula = session.get('matricula')
+    
+    if not matricula:
+        return redirect('/entrar')
+    
+    return render_template('dashboard.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    
+    return redirect('/')
+
+# Flask API
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    matricula = data.get('matricula')
+    senha = data.get('senha')
+    
+    sucesso = conn.loginUser(matricula, senha)
+    
+    if sucesso:
+        session['matricula'] = matricula
+        return {'status': True}, 200
+    else:
+        return {'status': False, 'message': 'Invalid credentials.'}, 401
+
+@app.route('/api/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    matricula = data.get('matricula')
+    nome = data.get('nome')
+    email = data.get('email')
+    senha = data.get('senha')
+    
+    sucesso = conn.registrarUser(matricula, nome, email, senha)
+    
+    if sucesso:
+        session['matricula'] = matricula
+        return {'status': True}, 201
+    else:
+        return {'status': False, 'message': 'Email already registered.'}, 409
 
 # Run
 if __name__ == '__main__':
+    conn.criarTabelas()
+    
     app.run(debug=True)

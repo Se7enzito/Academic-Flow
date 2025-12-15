@@ -24,8 +24,8 @@
                 </div>
 
                 <div class="d-flex flex-row gap-5 align-items-center justify-content-center text-center">
-                    <a class="btn-edit text-center text-decoration-none d-flex align-items-center justify-content-center" href="#">Entrar</a>
-                    <a class="btn-edit text-center text-decoration-none d-flex align-items-center justify-content-center" href="#">Saber Mais</a>
+                    <a class="btn-edit text-center text-decoration-none d-flex align-items-center justify-content-center" href="{{ url_for('entrar') }}">Entrar</a>
+                    <a class="btn-edit text-center text-decoration-none d-flex align-items-center justify-content-center" href="{{ url_for('saber_mais') }}">Saber Mais</a>
                 </div>
             </div>
 
@@ -41,7 +41,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
         integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
         crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/main.js' )}}"></script>
 
 </body>
 
