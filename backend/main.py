@@ -42,6 +42,42 @@ def dashboard():
     
     return render_template('dashboard.html')
 
+@app.route('/atividades')
+def atividades():
+    matricula = session.get('matricula')
+    
+    if not matricula:
+        return redirect('/entrar')
+    
+    return render_template('atividades.html')
+
+@app.route('/autoboca')
+def autoboca():
+    matricula = session.get('matricula')
+    
+    if not matricula:
+        return redirect('/entrar')
+    
+    return render_template('autoboca.html')
+
+@app.route('/fluxograma')
+def fluxograma():
+    matricula = session.get('matricula')
+    
+    if not matricula:
+        return redirect('/entrar')
+    
+    return render_template('fluxograma.html')
+
+@app.route('/materiais')
+def materiais():
+    matricula = session.get('matricula')
+    
+    if not matricula:
+        return redirect('/entrar')
+    
+    return render_template('materiais.html')
+
 @app.route('/logout')
 def logout():
     session.clear()
