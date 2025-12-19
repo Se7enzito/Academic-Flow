@@ -1,0 +1,276 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #212529;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #0d6efd, #084298);
+    padding: 18px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    color: #ffffff;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+header nav a {
+    color: #e9ecef;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+}
+
+header nav a:last-child {
+    margin-right: 0;
+}
+
+header nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #ffffff;
+    transition: width 0.3s ease;
+}
+
+header nav a:hover {
+    color: #ffffff;
+}
+
+header nav a:hover::after {
+    width: 100%;
+}
+
+.intro {
+    margin: 60px 0 40px;
+}
+
+.intro h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.intro h2 {
+    font-size: 1.1rem;
+    color: #6c757d;
+    max-width: 480px;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+footer {
+    background: linear-gradient(135deg, #111827, #020617);
+    color: #dee2e6;
+    padding: 50px 0 20px;
+    margin-top: 80px;
+}
+
+footer h6 {
+    font-weight: 600;
+}
+
+footer p,
+footer a {
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer hr {
+    border-color: #495057;
+}
+
+body.dark {
+    background-color: #0f1115;
+    color: #e5e7eb;
+}
+
+body.dark header {
+    background: linear-gradient(135deg, #1f1f1f, #0d0d0d);
+}
+
+body.dark .intro h2 {
+    color: #b5b5b5;
+}
+
+body.dark .actions-card {
+    background: #16181d;
+}
+
+body.dark footer {
+    background: linear-gradient(135deg, #020617, #000000);
+}
+
+@media (max-width: 576px) {
+    .intro h1 {
+        font-size: 2.1rem;
+    }
+
+    .intro h2 {
+        font-size: 1rem;
+    }
+}
+
+.fluxograma-cards {
+    display: flex;
+    gap: 32px;
+    padding: 30px 20px;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+    width: 100%;
+}
+
+.fluxograma-cards::-webkit-scrollbar {
+    height: 8px;
+}
+
+.fluxograma-cards::-webkit-scrollbar-thumb {
+    background: #c7d2fe;
+    border-radius: 999px;
+}
+
+.semestre {
+    min-width: 320px;
+    max-width: 320px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    scroll-snap-align: start;
+}
+
+.semestre h4 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+
+    padding: 10px;
+    border-radius: 14px;
+
+    background: linear-gradient(135deg, #e7f1ff, #f8fbff);
+    color: #0d6efd;
+
+    border: 1px solid #dbeafe;
+}
+
+.fluxograma-card {
+    width: 100%;
+    min-height: 140px;
+    padding: 18px 16px;
+
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease;
+}
+
+.fluxograma-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+    border-color: #0d6efd;
+}
+
+.fluxograma-card.active {
+    border: 2px solid #0d6efd;
+    background: linear-gradient(135deg, #eef4ff, #ffffff);
+}
+
+.fluxograma-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 6px;
+}
+
+.fluxograma-card p {
+    font-size: 0.85rem;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.fluxograma-badge {
+    align-self: flex-start;
+    margin-top: 10px;
+
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+
+    color: #0d6efd;
+    background: #e7f1ff;
+    border-radius: 999px;
+}
+
+body.dark .semestre h4 {
+    background: #111827;
+    color: #93c5fd;
+    border-color: #1f2937;
+}
+
+body.dark .fluxograma-card {
+    background: #16181d;
+    border-color: #1f2937;
+}
+
+body.dark .fluxograma-card h3 {
+    color: #e5e7eb;
+}
+
+body.dark .fluxograma-card p {
+    color: #9ca3af;
+}
+
+.fluxograma-card.active {
+    border: 2px solid #0d6efd;
+    background: linear-gradient(135deg, #dbeafe, #eff6ff);
+    box-shadow: 0 12px 30px rgba(13, 110, 253, 0.25);
+    transform: translateY(-2px);
+}
+
+body.dark .fluxograma-card.active {
+    background: #0b1220;
+    border-color: #3b82f6;
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.35);
+}
