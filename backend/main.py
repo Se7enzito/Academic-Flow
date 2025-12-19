@@ -1,6 +1,6 @@
 import os
 
-from libs.db.dbAPI import Conexao
+from backend.libs.db.dbAPI import Conexao
 
 from flask import Flask, render_template, request, session, redirect
 from flask_session import Session

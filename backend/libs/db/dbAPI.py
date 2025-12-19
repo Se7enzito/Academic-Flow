@@ -1,6 +1,6 @@
 import os
 import sqlite3 as sql
-from libs.db.encryption import CriptografiaDados
+from backend.libs.db.encryption import CriptografiaDados
 
 encrypt = CriptografiaDados()
 
