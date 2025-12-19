@@ -12,12 +12,14 @@ conn = Conexao()
 app.static_folder = '../frontend/src'
 app.static_url_path = '/static'
 
-UPLOAD_FOLDER = os.path.join('backend', 'libs', 'uploads')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'libs', 'uploads')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SECRET_KEY'] = 'supersecretkey'
-app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SESSION_TYPE'] = 'securecookie'
 Session(app)
 
 # Flask Site

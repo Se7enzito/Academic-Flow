@@ -5,13 +5,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Academic Flow - Materiais</title>
+    <title>Academic Flow - Materias</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
 <body>
+
+    <header>
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1>Academic Flow</h1>
+
+            <nav>
+                <a href="{{ url_for('dashboard') }}">Home</a>
+                <a href="{{ url_for('fluxograma') }}">Fluxograma</a>
+                <a href="{{ url_for('materias') }}">Materias</a>
+                <a href="{{ url_for('atividades') }}">Listas de Atividades</a>
+                <a href="{{ url_for('autoboca') }}">Auto-Boca</a>
+            </nav>
+
+            <nav class="gap-3">
+                <a href="{{ url_for('logout') }}">Sair</a>
+
+                <button class="btn btn-outline-light btn-sm ms-3" onclick="document.body.classList.toggle('dark')">
+                    🌙
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <div class="intro">
+                <h1>Materias</h1>
+                <h2>Gerencie suas matérias e adicione comentários a matérias que você já fez</h2>
+            </div>
+
+            <div>
+                <div></div>
+
+                <div id="materias-fazendo"></div>
+            </div>
+
+            <div>
+                <div></div>
+
+                <table id="table-comentarios"></table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+                    <h6>Academic Flow</h6>
+                    <p>
+                        Plataforma acadêmica independente criada por estudantes para melhorar
+                        a organização e o planejamento universitário.
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h6>Contato</h6>
+                    <p>
+                        Dúvidas ou sugestões?<br>
+                        <a href="https://www.instagram.com/bernardocastro___/" target="_blank">
+                            Instagram
+                        </a>
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h6>Projeto</h6>
+                    <a href="https://forms.gle/A6tbhJisknkvewZ39">Avaliar a ferramenta</a><br>
+                    <a href="https://github.com/bernardoxdev/Academic-Flow">Ver código-fonte</a>
+                    <p class="small mt-2">Made by Bernardo de Castro</p>
+                </div>
+
+            </div>
+
+            <hr>
+            <p class="text-center small mb-0">
+                Academic Flow © 2026 — Projeto sem vínculo institucional
+            </p>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

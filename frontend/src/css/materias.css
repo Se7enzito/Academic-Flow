@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #212529;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #0d6efd, #084298);
+    padding: 18px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    color: #ffffff;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+header nav a {
+    color: #e9ecef;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+}
+
+header nav a:last-child {
+    margin-right: 0;
+}
+
+header nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #ffffff;
+    transition: width 0.3s ease;
+}
+
+header nav a:hover {
+    color: #ffffff;
+}
+
+header nav a:hover::after {
+    width: 100%;
+}
+
+.intro {
+    margin: 60px 0 40px;
+}
+
+.intro h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.intro h2 {
+    font-size: 1.1rem;
+    color: #6c757d;
+    max-width: 480px;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+footer {
+    background: linear-gradient(135deg, #111827, #020617);
+    color: #dee2e6;
+    padding: 50px 0 20px;
+    margin-top: 80px;
+}
+
+footer h6 {
+    font-weight: 600;
+}
+
+footer p,
+footer a {
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer hr {
+    border-color: #495057;
+}
+
+body.dark {
+    background-color: #0f1115;
+    color: #e5e7eb;
+}
+
+body.dark header {
+    background: linear-gradient(135deg, #1f1f1f, #0d0d0d);
+}
+
+body.dark .intro h2 {
+    color: #b5b5b5;
+}
+
+body.dark .actions-card {
+    background: #16181d;
+}
+
+body.dark footer {
+    background: linear-gradient(135deg, #020617, #000000);
+}
+
+@media (max-width: 576px) {
+    .intro h1 {
+        font-size: 2.1rem;
+    }
+
+    .intro h2 {
+        font-size: 1rem;
+    }
+}
