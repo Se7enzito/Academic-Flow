@@ -1,9 +1,15 @@
 import os
 
-from backend.libs.db.dbAPI import Conexao
-
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, session, redirect
 from flask_session import Session
+
+from backend.libs.db.dbAPI import Conexao
+
+try:
+    load_dotenv()
+except ImportError:
+    pass
 
 app = Flask(__name__, template_folder="../frontend/templates")
 
