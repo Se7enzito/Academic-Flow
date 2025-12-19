@@ -18,8 +18,8 @@ UPLOAD_FOLDER = os.path.join(BASE_DIR, 'libs', 'uploads')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['SESSION_TYPE'] = 'securecookie'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "dev-secret")
+app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
 # Flask Site
