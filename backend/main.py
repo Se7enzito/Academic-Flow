@@ -1,10 +1,9 @@
 import os
+import requests
 
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, session, redirect
 from flask_session import Session
-
-from backend.libs.db.dbAPI import Conexao
 
 try:
     load_dotenv()
@@ -12,8 +11,6 @@ except ImportError:
     pass
 
 app = Flask(__name__, template_folder="../frontend/templates")
-
-conn = Conexao()
 
 app.static_folder = '../frontend/src'
 app.static_url_path = '/static'
@@ -26,6 +23,13 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "dev-secret")
 app.config['SESSION_TYPE'] = 'filesystem'
+
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+    SESSION_COOKIE_SECURE=True
+)
+
 Session(app)
 
 # Flask Site
@@ -96,35 +100,48 @@ def logout():
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
-    matricula = data.get('matricula')
-    senha = data.get('senha')
-    
-    sucesso = conn.loginUser(matricula, senha)
-    
-    if sucesso:
-        session['matricula'] = matricula
+
+    response = requests.post(
+        "https://academic-flow-api.onrender.com/auth/login",
+        json=data,
+        timeout=5
+    )
+
+    if response.status_code == 200:
+        user = response.json()
+
+        session['matricula'] = user['matricula']
+
         return {'status': True}, 200
-    else:
-        return {'status': False, 'message': 'Invalid credentials.'}, 401
+
+    return {'status': False, 'message': 'Credenciais inválidas'}, 401
 
 @app.route('/api/register', methods=['POST'])
 def register():
     data = request.get_json()
-    matricula = data.get('matricula')
-    nome = data.get('nome')
-    email = data.get('email')
-    senha = data.get('senha')
-    
-    sucesso = conn.registrarUser(matricula, nome, email, senha)
-    
-    if sucesso:
-        session['matricula'] = matricula
+
+    response = requests.post(
+        "https://academic-flow-api.onrender.com/auth/registro",
+        json=data,
+        timeout=5
+    )
+
+    if response.status_code in (200, 201):
+        user = response.json()
+
+        session['matricula'] = user['matricula']
+        session['nome'] = user.get('nome')
+        session['email'] = user.get('email')
+
         return {'status': True}, 201
-    else:
-        return {'status': False, 'message': 'Email already registered.'}, 409
+
+    return {
+        'status': False,
+        'message': response.json().get(
+            'message', 'Erro ao registrar usuário'
+        )
+    }, 409
 
 # Run
 if __name__ == '__main__':
-    conn.criarTabelas()
-    
     app.run(debug=True)
