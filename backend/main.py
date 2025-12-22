@@ -135,6 +135,8 @@ def register():
 
         return {'status': True}, 201
 
+    print(response)
+
     return {
         'status': False,
         'message': response.json().get(
