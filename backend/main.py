@@ -51,45 +51,50 @@ def entrar():
 
 @app.route('/dashboard')
 def dashboard():
-    matricula = session.get('matricula')
+    acess_token = session.get('access_token')
+    refresh_token = session.get('refresh_token')
     
-    if not matricula:
+    if not acess_token or not refresh_token:
         return redirect('/entrar')
     
     return render_template('dashboard.html')
 
 @app.route('/atividades')
 def atividades():
-    matricula = session.get('matricula')
+    acess_token = session.get('access_token')
+    refresh_token = session.get('refresh_token')
     
-    if not matricula:
+    if not acess_token or not refresh_token:
         return redirect('/entrar')
     
     return render_template('atividades.html')
 
 @app.route('/autoboca')
 def autoboca():
-    matricula = session.get('matricula')
+    acess_token = session.get('access_token')
+    refresh_token = session.get('refresh_token')
     
-    if not matricula:
+    if not acess_token or not refresh_token:
         return redirect('/entrar')
     
     return render_template('autoboca.html')
 
 @app.route('/fluxograma')
 def fluxograma():
-    matricula = session.get('matricula')
+    acess_token = session.get('access_token')
+    refresh_token = session.get('refresh_token')
     
-    if not matricula:
+    if not acess_token or not refresh_token:
         return redirect('/entrar')
     
     return render_template('fluxograma.html')
 
 @app.route('/materias')
 def materias():
-    matricula = session.get('matricula')
+    acess_token = session.get('access_token')
+    refresh_token = session.get('refresh_token')
     
-    if not matricula:
+    if not acess_token or not refresh_token:
         return redirect('/entrar')
     
     return render_template('materias.html')
