@@ -92,6 +92,15 @@ def materias():
 
 @app.route('/logout')
 def logout():
+    refresh = session.get('refresh_token')
+
+    if refresh:
+        requests.post(
+            "https://academic-flow-api.onrender.com/auth/logout",
+            json={"refresh_token": refresh},
+            timeout=5
+        )
+
     session.clear()
     
     return redirect('/')
@@ -108,9 +117,10 @@ def login():
     )
 
     if response.status_code == 200:
-        user = response.json()
+        tokens = response.json()
 
-        session['matricula'] = user['matricula']
+        session['access_token'] = tokens['access_token']
+        session['refresh_token'] = tokens['refresh_token']
 
         return {'status': True}, 200
 
@@ -121,21 +131,18 @@ def register():
     data = request.get_json()
 
     response = requests.post(
-        "https://academic-flow-api.onrender.com/auth/registro",
+        "https://academic-flow-api.onrender.com/auth/register",
         json=data,
         timeout=5
     )
 
     if response.status_code in (200, 201):
-        user = response.json()
-
-        session['matricula'] = user['matricula']
-        session['nome'] = user.get('nome')
-        session['email'] = user.get('email')
-
+        tokens = response.json()
+    
+        session['access_token'] = tokens['access_token']
+        session['refresh_token'] = tokens['refresh_token']
+    
         return {'status': True}, 201
-
-    print(response)
 
     return {
         'status': False,
@@ -143,6 +150,48 @@ def register():
             'message', 'Erro ao registrar usuário'
         )
     }, 409
+
+def api_request(method, url, **kwargs):
+    access = session.get("access_token")
+
+    headers = kwargs.pop("headers", {})
+    headers["Authorization"] = f"Bearer {access}"
+
+    response = requests.request(
+        method,
+        url,
+        headers=headers,
+        **kwargs
+    )
+
+    if response.status_code == 401:
+        refresh = session.get("refresh_token")
+
+        refresh_response = requests.post(
+            "https://academic-flow-api.onrender.com/auth/refresh",
+            json={"refresh_token": refresh}
+        )
+
+        if refresh_response.status_code == 200:
+            new_access = refresh_response.json()["access_token"]
+            session["access_token"] = new_access
+
+            headers["Authorization"] = f"Bearer {new_access}"
+            return requests.request(method, url, headers=headers, **kwargs)
+
+    return response
+
+@app.route('/api/fluxograma', methods=['GET'])
+def get_fluxograma():
+    if 'access_token' not in session:
+        return {'status': False, 'message': 'Não autenticado'}, 401
+
+    response = api_request(
+        "GET",
+        "https://academic-flow-api.onrender.com/fluxograma/"
+    )
+
+    return response.json(), response.status_code
 
 # Run
 if __name__ == '__main__':

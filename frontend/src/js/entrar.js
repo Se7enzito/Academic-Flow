@@ -41,6 +41,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
 
     const response = await fetch('/api/login', {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -73,6 +74,7 @@ document.getElementById('registroForm').addEventListener('submit', async (event)
 
     const response = await fetch('/api/register', {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },

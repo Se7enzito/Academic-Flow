@@ -4,10 +4,15 @@ let dadosFluxograma = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const response = await fetch('https://academic-flow-api.onrender.com/fluxograma/');
-        dadosFluxograma = await response.json();
+        const response = await fetch('/api/fluxograma');
 
+        if (!response.ok) {
+            throw new Error('Erro ao buscar fluxograma');
+        }
+
+        dadosFluxograma = await response.json();
         renderCards(dadosFluxograma);
+
     } catch (err) {
         console.error(err);
         mostrarToast('Erro ao carregar fluxograma', 'error');
