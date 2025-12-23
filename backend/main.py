@@ -142,15 +142,18 @@ def login():
         timeout=5
     )
 
-    if response.status_code == 200:
+    if response.status_code in (200, 201):
         tokens = response.json()
 
         session['access_token'] = tokens['access_token']
         session['refresh_token'] = tokens['refresh_token']
 
-        return {'status': True}, 200
+        return {'status': True}, response.status_code
 
-    return {'status': False, 'message': 'Credenciais inválidas'}, 401
+    return {
+        'status': False,
+        'message': response.json().get('detail', 'Credenciais inválidas')
+    }, response.status_code
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -168,14 +171,14 @@ def register():
         session['access_token'] = tokens['access_token']
         session['refresh_token'] = tokens['refresh_token']
     
-        return {'status': True}, 201
+        return {'status': True}, response.status_code
 
     return {
         'status': False,
         'message': response.json().get(
             'message', 'Erro ao registrar usuário'
         )
-    }, 409
+    }, response.status_code
 
 def api_request(method, url, **kwargs):
     access = session.get("access_token")
