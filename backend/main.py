@@ -1,6 +1,7 @@
 import os
 import requests
 
+from time import time
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, session, redirect
 from flask_session import Session
@@ -9,6 +10,9 @@ try:
     load_dotenv()
 except ImportError:
     pass
+
+CACHE = {}
+CACHE_TTL = 300
 
 app = Flask(__name__, template_folder="../frontend/templates")
 
@@ -106,6 +110,23 @@ def logout():
     return redirect('/')
 
 # Flask API
+def cache_get(key):
+    item = CACHE.get(key)
+
+    if not item:
+        return None
+
+    data, expires = item
+    if time() > expires:
+        del CACHE[key]
+        return None
+
+    return data
+
+
+def cache_set(key, value, ttl=CACHE_TTL):
+    CACHE[key] = (value, time() + ttl)
+
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -183,15 +204,25 @@ def api_request(method, url, **kwargs):
 
 @app.route('/api/fluxograma', methods=['GET'])
 def get_fluxograma():
-    if 'access_token' not in session:
-        return {'status': False, 'message': 'Não autenticado'}, 401
+    cached = cache_get("fluxograma")
+
+    if cached:
+        return cached, 200
 
     response = api_request(
         "GET",
         "https://academic-flow-api.onrender.com/fluxograma/"
     )
 
+    if response.status_code == 200:
+        cache_set("fluxograma", response.json())
+
     return response.json(), response.status_code
+
+@app.route('/api/cache/clear', methods=['POST'])
+def clear_cache():
+    CACHE.clear()
+    return {'status': 'cache limpo'}
 
 # Run
 if __name__ == '__main__':
