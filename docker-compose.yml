@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    container_name: academicflow_site
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./flask_session:/app/flask_session
+      - ./secret.key:/app/secret.key
+    environment:
+      FLASK_ENV: production
